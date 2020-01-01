@@ -32,7 +32,7 @@ class Author(AbstractModel):
 
 class Publisher(AbstractModel):
     title = models.CharField(max_length=255)
-    tel = models.IntegerField(null=True, max_length=11)
+    tel = models.IntegerField(null=True)
     address = models.TextField(null=True)
     logo = models.ImageField(upload_to='publisher-logo/', null=True, blank=True)
 
@@ -66,9 +66,9 @@ class Book(AbstractModel):
     about = models.TextField()
     genre = models.ManyToManyField(Genre)
     author = models.ForeignKey(Author, on_delete=models.PROTECT)
-    comment = models.ForeignKey(Comment, on_delete=models.PROTECT)
-    score = models.ForeignKey(Score, on_delete=models.PROTECT)
+    comment = models.ForeignKey(Comment, on_delete=models.PROTECT, null=True, blank=True)
+    score = models.ForeignKey(Score, on_delete=models.PROTECT, null=True, blank=True)
+    publisher = models.ForeignKey(Publisher, on_delete=models.PROTECT, null=True, blank=True)
 
     def __str__(self):
         return '{} ({})'.format(self.title, self.author.name)
-
