@@ -107,10 +107,11 @@
                         <nav class="nav">
                             <div class="navbar-nav text-center" id="category">
                                 <a href="#" id="sidebar-subject" class="nav-item nav-link btn disabled">دسته بندی موضوعی</a>
-                                <a href="#" class="px-5 nav-item nav-link wow fadeInRight" data-wow-delay="0s">کمدی</a>
-                                <a href="#" class="px-5 nav-item nav-link wow fadeInRight" data-wow-delay="0.1s">درام</a>
-                                <a href="#" class="px-5 nav-item nav-link wow fadeInRight" data-wow-delay="0.2s">فانتزی</a>
-                                <a href="#" class="px-5 nav-item nav-link wow fadeInRight" data-wow-delay="0.3s">علمی</a>
+                                {% for genre in all_genres %}
+                                    <a href="#" class="px-5 nav-item nav-link wow fadeInRight"
+                                       data-wow-delay="0.{{ forloop.counter }}s">{{ genre.title }}
+                                    </a>
+                                {% endfor %}
                             </div>
                         </nav>
                     </section>
@@ -121,28 +122,24 @@
                             <div class="carousel slide carousel-fade" data-ride="carousel" id="carousel1">
                                 <footer class="d-none d-md-block">
                                     <ol class="carousel-indicators">
-                                        <li data-target="#carousel1" data-slide-to="0" class="active">مجموعه کتاب های هری پاتر</li>
-                                        <li data-target="#carousel1" data-slide-to="1">نغمه آتش و یخ</li>
-                                        <li data-target="#carousel1" data-slide-to="2">اموزش بوت استرپ 4</li>
+                                        {% for book in nominated_books %}
+                                            <li data-target="#carousel1" data-slide-to="{{ forloop.counter0}}"
+                                                {% if forloop.counter0 == 0 %} class="active" {% endif %}>
+                                                {{ book.title }}
+                                            </li>
+                                        {% endfor %}
                                     </ol>
                                 </footer>
 
                                 <div class="carousel-inner">
-                                    <div class="carousel-item active h-100">
-                                        <a href="#">
-                                            <img src="{% static 'img/potter-banner.jpg' %}" class="d-block w-100 h-100">
-                                        </a>
-                                    </div>
-                                    <div class="carousel-item h-100">
-                                        <a href="#">
-                                            <img src="{% static 'img/got-banner.jpeg' %}" class="d-block w-100 h-100">
-                                        </a>
-                                    </div>
-                                    <div class="carousel-item h-100">
-                                        <a href="#">
-                                            <img src="{% static 'img/book.png' %}" class="d-block w-100 h-100">
-                                        </a>
-                                    </div>
+                                    {% for book in nominated_books %}
+                                        <div class="carousel-item h-100 {% if forloop.counter0 == 0 %}
+                                                                                  active {% endif %}">
+                                            <a href="#">
+                                                <img src="{{ book.cover.url }}" class="d-block w-100 h-100">
+                                            </a>
+                                        </div>
+                                    {% endfor %}
                                 </div>
                                 <a href="#carousel1" class="carousel-control-prev" data-slide="next" role="button">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>

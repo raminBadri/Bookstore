@@ -4,4 +4,8 @@ from .models import *
 
 
 def index(request):
-    return render(request, 'home_page.html')
+    genres = Genre.objects.all()
+    books = Book.objects.all()[:3]
+    return render(request, 'home_page.html', {'all_genres': genres,
+                                              'nominated_books': books
+                                              })
