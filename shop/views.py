@@ -4,4 +4,4 @@ from .models import *
 
 
 def index(request):
-    return HttpResponse('hi')
+    return render(request, 'home_page.html')
