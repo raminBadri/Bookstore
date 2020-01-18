@@ -187,19 +187,21 @@
                             </p>
                         </div>
                         <div class="card-body">
-                            <img class="rounded-circle w-50 mb-3" src="{% static 'img/person1.jpg' %}" />
+                            <img class="rounded-circle w-50 mb-3" src="{% if point_of_day.profile_pic.url %}
+                                                                            {{ point_of_day.profile_pic.url }}
+                                                                       {% else %}
+                                                                            {% static 'img/no-image.jpg' %}
+                                                                       {% endif %}" />
                             <h4 class="mb-3">
                                 <a href="#">
-                                    گوته
+                                    {{ point_of_day.name }}
                                 </a>
                             </h4>
                             <h6 class="text-muted mb-4">
                                 بیوگرافی
                             </h6>
                             <p class="mb-4 px-3">
-                                لورم ایپسوم متن ساختگی با تولید سادگی
-                                نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها
-                                و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است.
+                                {{ point_of_day.quote }}
                             </p>
                         </div>
                     </div>
@@ -286,27 +288,33 @@
                     </div>
                 </div>
                 <div class="col-md-3 text-center">
-                    <div class="card my-shadow wow fadeInLeft" id="point-of-day" data-wow-delay="0.5s" data-wow-offset="200">
+                    <div class="card my-shadow wow fadeInLeft" id="point-of-day"
+                         data-wow-delay="0.5s" data-wow-offset="200">
                         <div class="card-header">
                             <p>
                                 آشنایی با مشاهیر
                             </p>
                         </div>
                         <div class="card-body">
-                            <img class="rounded-circle w-50 mb-3" src="{% static 'img/person1.jpg' %}" />
+                            <img class="rounded-circle w-50 mb-3" src="{% if nominated_author.profile_pic.url %}
+                                                                            {{ nominated_author.profile_pic.url }}
+                                                                       {% else %}
+                                                                            {% static 'img/no-image.jpg' %}
+                                                                       {% endif %}" />
                             <h4 class="mb-3">
                                 <a href="#">
-                                    گوته
+                                    {{ nominated_author.name }}
                                 </a>
                             </h4>
                             <h6 class="text-muted mb-4">
-                                متولد 1968 در انگلیس
+                                آثار موجود در سایت:
+                                {{ nominated_author.book_set.count }}
                             </h6>
+                        {% with specifier=point_of_day.quote|length %}
                             <p class="mb-1 px-3 pb-0">
-                                لورم ایپسوم متن ساختگی با تولید سادگی
-                                نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها
-                                و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است.
+                                {{ nominated_author.bio|truncatechars:specifier }}
                             </p>
+                        {% endwith %}
                             <a href="#">
                                 <i class="fa fa-hand-pointer-o"></i>
                                 بیشتر بخوانید...

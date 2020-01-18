@@ -25,6 +25,7 @@ class Author(AbstractModel):
     death = models.IntegerField(null=True, blank=True)
     bio = models.TextField(null=True, blank=True)
     profile_pic = models.ImageField(upload_to='author-profile-pic/', blank=True, null=True)
+    quote = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return '{}- from {} to {}'.format(self.name, self.birth, self.death or 'now')
