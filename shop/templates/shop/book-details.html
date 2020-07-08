@@ -1,0 +1,87 @@
+{% extends 'home_page.html' %}
+{% load staticfiles %}
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}{{ book.title }} details{% endblock %}</title>
+</head>
+<body>
+{% block main_content %}
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-8 card text-center border-0 mx-auto" id="point-of-day">
+                <div class="card-body my-shadow" style="background-color: lightgray">
+                    <img class="w-50 mb-3" src="{% if book.cover.url is not null %}
+                                                                {{ book.cover.url}}
+                                                                {% else %}{% static 'img/no-image.jpg' %}{% endif %}" />
+                    <h4 class="mb-3">
+                        <a href="{% url 'shop:book_details' book.id %}">
+                            {{ book.title }}
+                        </a>
+                    </h4>
+                    <p class="mb-4 px-3">
+                    {% if book.about %}
+                        {{ book.about }}
+                    {% else %}
+                        <p>"اطلاعاتی موجود نمی باشد."</p>
+                    {% endif %}
+                    </p>
+                    <p class="card-footer">
+                        <span>
+                            نویسنده:
+                            <a href="{% url 'shop:author_details' book.author.id %}">{{ book.author.name }}</a>
+                        </span><br/>
+                        <span>
+                            ژانر کتاب:
+                            {% for genre in book.genre.all %}
+                                <a href="{% url 'shop:home_page' %}">{{ genre.title }}</a>,
+                            {% endfor %}
+                        </span><br/>
+                        <span>
+                            انتشارات:
+                            <a href="{% url 'shop:publisher_details' book.publisher.id %}">
+                                {{ book.publisher.title }}</a>
+                        </span><br/>
+                        <span>
+                            سال انتشار:
+                            {{ book.year }}
+                        </span><br/>
+                            تعداد صفجه:
+                            {{ book.page_count }}
+                        </span><br/>
+                        <span>
+                            موجودی:
+                            {{ book.available_count }}
+                        </span><br/>
+                        <span>
+                            میانگین امتیازات کابران به این محصول:
+                            {{ book.score|default:'امتیازی ثبت نشده است.' }}
+                        </span><br/>
+                        <span>
+                            قیمت:
+                            {{ book.price }}
+                        </span><br/>
+                        <span>
+                            <a href="{% url 'shop:wiki' book.title %}" class="text-right">
+                                اطلاعات بیشتر در ویکیپدیا
+                                <i class="fa fa-wikipedia-w"></i>
+                            </a>
+                        </span><br>
+                        <span class="text-left">
+                            <a href="{% url 'shop:home_page' %}">
+                                    بازگشت به صفحه اصلی
+                                <i class="fa fa-backward"></i>
+                            </a>
+                        </span><br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block lower_content %}{% endblock %}
+</body>
+</html>

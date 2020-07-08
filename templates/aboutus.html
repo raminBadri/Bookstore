@@ -1,0 +1,44 @@
+{% extends 'home_page.html' %}
+{% load staticfiles %}
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}About Us{% endblock %}</title>
+</head>
+<body>
+{% block main_content %}
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-8 card text-center border-0 mx-auto" id="point-of-day">
+                <div class="card-body my-shadow" style="background-color: lightgray">
+                    <h4 class="card-header mb-3">
+                        درباره ما
+                    </h4>
+                    <p class="mb-4 px-3">
+                        وقتی وارد یک فروشگاه کتاب می‌شوی، حس خوبی به آدم دست می‌دهد. این ‌که کتاب را برمی‌داری و چند
+                        برگی از آن را ورق میزنی، شوق کتاب‌خوانی در وجودت اوج می گیرد.
+                        راستش، همین که بوی کتاب نو به مشام می‌رسد،
+                        آدم هوس کتاب می‌کند و دوست دارد  بیشتر و بیشتر کتاب بخواند.
+                            در فروشگاه‌های مجازی،
+                        این حس و حال کمتر به چشم می‌خورد و آدم آن نزدیکی واقعی با کتاب را ندارد.
+                        اما فروشگاه ما هم حرف‌هایی برای گفتن دارد.
+                        اگرچه در فروشگاه اینترنتی ما، خبری از بوی کتاب  نیست،
+                        اما جایی است که برای تجربه‌ی یک خرید خوب می‌شود روی آن حساب کرد.
+                    </p>
+                    <p class="card-footer">
+                        <a href="{% url 'shop:all_authors' %}" class="text-left mr-auto pr-5">
+                                بازگشت به صفحه اصلی سایت
+                            <i class="fa fa-backward"></i>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block lower_content %}{% endblock %}
+</body>
+</html>

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.db.models import Max, Count, Q
+from django.views.generic import *
 import random
 from .models import *
 
@@ -22,14 +23,68 @@ def find_best_books():
             return _
 
 
+# this view fills home page's requirements
 def index(request):
     genres = Genre.objects.all()
     books = Book.objects.all()[:3]
     author = get_random_object(1, Author)
     nominated_author = get_random_object(1, Author)
-    nominated_genre = find_best_books()
     return render(request, 'home_page.html', {'all_genres': genres,
                                               'nominated_books': books,
                                               'point_of_day': author,
                                               'nominated_author': nominated_author,
                                               })
+
+
+# we could use class based views too
+def list_authors(request):
+    authors = Author.objects.all()
+    genres = Genre.objects.all()
+    return render(request, 'shop/authors.html', {'all_authors': authors,
+                                                 'all_genres': genres})
+
+
+def show_author(request, id):
+    author = Author.objects.get(pk=id)
+    genres = Genre.objects.all()
+    return render(request, 'shop/author-details.html', {'author': author,
+                                                        'all_genres': genres})
+
+
+# class based list and detail view sample for publisher model
+class PublisherListView(ListView):
+    model = Publisher
+    template_name = 'shop/publishers.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_genres'] = Genre.objects.all()
+        return context
+
+
+class PublisherDetailView(DeleteView):
+    model = Publisher
+    template_name = 'shop/publisher-details.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_genres'] = Genre.objects.all()
+        return context
+############################
+
+
+def show_book(request, pk):
+    book = Book.objects.get(pk=pk)
+    genres = Genre.objects.all()
+    return render(request, 'shop/book-details.html', {'book': book,
+                                                      'all_genres': genres})
+
+
+def about_us(request):
+    genres = Genre.objects.all()
+    return render(request, 'aboutus.html', {'all_genres': genres})
+
+
+def contact_us(request):
+    genres = Genre.objects.all()
+    return render(request, 'contactus.html', {'all_genres': genres})

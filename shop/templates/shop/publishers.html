@@ -1,0 +1,46 @@
+{% extends 'home_page.html' %}
+{% load staticfiles %}
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Publisher List{% endblock %}</title>
+</head>
+<body>
+{% block main_content %}
+    <div class="col-md-8 p-2">
+        <div class="row">
+        {% for publisher in publisher_list %}
+            <div class="col-md-6 card wow fadeInRight text-center border-0" id="point-of-day"
+                 data-wow-delay="0.5s" data-wow-offset="200">
+                <div class="card-body my-shadow mb-2" style="background-color: lightgray">
+                    <img class="mb-3" src="{% if publisher.logo.url is not null %}
+                                                                    {{ publisher.logo.url }}
+                                                               {% else %}
+                                                                    {% static 'img/no-image.jpg' %}
+                                                               {% endif %}"/>
+                    <h4 class="mb-3">
+                        <a href="{% url 'shop:publisher_details' publisher.id %}">
+                            {{ publisher.title }}
+                        </a>
+                    </h4>
+                    <h6 class="text-muted mb-4">
+                        <p>
+                            تعداد محصولات موجود در سایت:
+                            {{ publisher.book_set.count }}
+                        </p>
+                    </h6>
+                    <p class="mb-4 px-3">
+                        <a href="{% url 'shop:publisher_details' publisher.id %}">جزییات بیشتر
+                            <i class="fa fa-search"></i>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+</body>
+</html>

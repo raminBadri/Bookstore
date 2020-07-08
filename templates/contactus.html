@@ -1,0 +1,38 @@
+{% extends 'home_page.html' %}
+{% load staticfiles %}
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Contact Us{% endblock %}</title>
+</head>
+<body>
+{% block main_content %}
+    <div class="col-md-8 p-2">
+        <div class="row">
+            <div class="col card wow fadeInRight text-center border-0" id="point-of-day"
+                 data-wow-delay="0.5s" data-wow-offset="200">
+                <div class="card-body my-shadow mb-2" style="background-color: lightgray">
+                    <img class="rounded-circle w-25 mb-3" src="{% static 'img/no-image.jpg' %}"/>
+                    <p class="mb-3 fa-2x">
+                        <i class="fa fa-phone"></i>
+                            تلفن تماس: 90-02144556688
+                    </p>
+                    <p class="mb-3 fa-2x">
+                        <i class="fa fa-map-marker"></i>
+                            آدرس: تهران - تهران
+                    </p>
+                    <p class="mb-3 fa-2x">
+                        <i class="fa fa-envelope"></i>
+                            آدرس اینترنتی: support@gmail.com
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block lower_content %}{% endblock %}
+</body>
+</html>

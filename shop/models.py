@@ -36,6 +36,7 @@ class Publisher(AbstractModel):
     tel = models.IntegerField(null=True)
     address = models.TextField(null=True)
     logo = models.ImageField(upload_to='publisher-logo/', null=True, blank=True)
+    site = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return '{} - tel: {} - address: {}'.format(self.title, self.tel, self.address)

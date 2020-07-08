@@ -70,7 +70,7 @@
                     <a href="#" class="btn">
                         <span><i class="fa fa-shopping-cart"></i></span>
                         <span>سبد خرید</span>
-                        <span class="badge badge-pill bg-info text-light">2</span>
+                        {#<span class="badge badge-pill bg-info text-light">2</span>#}
                     </a>
                 </div>
             </div>
@@ -86,11 +86,16 @@
                         </button>
                         <div class="collapse navbar-collapse" id="navbar1">
                             <div class="navbar-nav">
-                                <a href="#" class="px-md-4 nav-item nav-link wow fadeInRight" data-wow-delay="0s">خانه</a>
-                                <a href="#" class="px-md-4 nav-item nav-link wow fadeInRight" data-wow-delay="0.1s">نویسندگان</a>
-                                <a href="#" class="px-md-4 nav-item nav-link wow fadeInRight" data-wow-delay="0.2s">ناشران</a>
-                                <a href="#" class="px-md-4 nav-item nav-link wow fadeInRight" data-wow-delay="0.3s">درباه ما</a>
-                                <a href="#" class="px-md-4 nav-item nav-link wow fadeInRight" data-wow-delay="0.4s">تماس با ما</a>
+                                <a href="{% url 'shop:home_page' %}" class="px-md-4 nav-item nav-link wow fadeInRight"
+                                   data-wow-delay="0s">خانه</a>
+                                <a href="{% url 'shop:all_authors' %}" class="px-md-4 nav-item nav-link wow fadeInRight"
+                                   data-wow-delay="0.1s">نویسندگان</a>
+                                <a href="{% url 'shop:all_publishers' %}" class="px-md-4 nav-item nav-link wow fadeInRight"
+                                   data-wow-delay="0.2s">ناشران</a>
+                                <a href="{% url 'shop:aboutus' %}" class="px-md-4 nav-item nav-link wow fadeInRight"
+                                   data-wow-delay="0.3s">درباه ما</a>
+                                <a href="{% url 'shop:contactus' %}" class="px-md-4 nav-item nav-link wow fadeInRight"
+                                   data-wow-delay="0.4s">تماس با ما</a>
                             </div>
                         </div>
                     </nav>
@@ -116,6 +121,7 @@
                         </nav>
                     </section>
                 </div>
+                {% block main_content %}
                 <div class="col-md-8 px-0">
                     <div class="row">
                         <div class="col wow fadeIn" data-wow-delay="0.2s">
@@ -151,8 +157,10 @@
                                 </a>
                             </div>
                         </div>
+
                     </div>
                 </div>
+                {% endblock %}
                 <div class="col-md-2 text-center">
                     <div class="row">
                         <div class="col">
@@ -178,6 +186,7 @@
                     </div>
                 </div>
             </div>
+            {% block lower_content %}
             <div class="row my-4">
                 <div class="col-md-3 text-center">
                     <div class="card my-shadow wow fadeInRight" id="point-of-day" data-wow-delay="0.5s" data-wow-offset="200">
@@ -323,6 +332,7 @@
                     </div>
                 </div>
             </div>
+            {% endblock %}
         </div>
     </main>
 
@@ -366,13 +376,13 @@
                         <li>
                             <div>
                                 <i class="fa fa-phone"></i>
-                                <span>021-77658296</span>
+                                <span>021-22336655</span>
                             </div>
                         </li>
                         <li>
                             <div>
                                 <i class="fa fa-address-card-o"></i>
-                                <span>تهران - میدان ونک</span>
+                                <span>تهران</span>
                             </div>
                         </li>
                         <li>
@@ -417,6 +427,7 @@
         </div>
     </footer>
 <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/owl.carousel.min.js' %}"></script>
 <script src="{% static 'js/wow.min.js' %}"></script>

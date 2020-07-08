@@ -1,0 +1,53 @@
+{% extends 'home_page.html' %}
+{% load staticfiles %}
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}{{ author.name }} details{% endblock %}</title>
+</head>
+<body>
+{% block main_content %}
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-8 card text-center border-0 mx-auto" id="point-of-day">
+                <div class="card-body my-shadow" style="background-color: lightgray">
+                    <img class="rounded-circle w-50 mb-3" src="{% if author.profile_pic.url is not null %}
+                                                                {{ author.profile_pic.url }}
+                                                           {% else %}
+                                                                {% static 'img/no-image.jpg' %}
+                                                           {% endif %}"/>
+                    <h4 class="mb-3">
+                        <a href="{% url 'shop:author_details' author.id %}">
+                            {{ author.name }}
+                        </a>
+                    </h4>
+                    <p class="mb-4 px-3">
+                    {% if author.bio %}
+                        {{ author.bio }}
+                        {% elif author.quote %}
+                        {{ author.quote }}
+                    {% else %}
+                        <p>"اطلاعاتی موجود نمی باشد."</p>
+                    {% endif %}
+                    </p>
+                    <p class="card-footer">
+                        <a href="{% url 'shop:wiki' author.name %}" class="text-right pl-5">
+                        اطلاعات بیشتر در ویکیپدیا
+                        <i class="fa fa-wikipedia-w"></i>
+                        </a>
+                        <a href="{% url 'shop:all_authors' %}" class="text-left mr-auto pr-5">
+                               بازگشت
+                            <i class="fa fa-backward"></i>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block lower_content %}{% endblock %}
+</body>
+</html>

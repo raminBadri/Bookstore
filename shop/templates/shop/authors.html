@@ -1,0 +1,45 @@
+{% extends 'home_page.html' %}
+{% load staticfiles %}
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Authors List{% endblock %}</title>
+</head>
+<body>
+{% block main_content %}
+    <div class="col-md-8 p-2">
+        <div class="row">
+        {% for author in all_authors %}
+            <div class="col-md-6 card wow fadeInRight text-center border-0" id="point-of-day"
+                 data-wow-delay="0.5s" data-wow-offset="200">
+                <div class="card-body my-shadow mb-2" style="background-color: lightgray">
+                    <img class="rounded-circle w-50 mb-3" src="{% if author.profile_pic.url is not null %}
+                                                                {{ author.profile_pic.url }}
+                                                           {% else %}
+                                                                {% static 'img/no-image.jpg' %}
+                                                           {% endif %}"/>
+                    <h4 class="mb-3">
+                        <a href="{% url 'shop:author_details' author.id %}">
+                            {{ author.name }}
+                        </a>
+                    </h4>
+                    <h6 class="text-muted mb-4">
+                        <a href="{% url 'shop:author_details' author.id %}">
+                            زندگی نامه
+                        </a>
+                    </h6>
+                    <p class="mb-4 px-3">
+                        سخن معروف: "
+                        {{ author.quote|default:"موجود نمی باشد" }}
+                        "
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+</body>
+</html>
