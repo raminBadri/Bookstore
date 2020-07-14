@@ -41,20 +41,24 @@
                             {% endfor %}
                         </span><br/>
                         <span>
-                            انتشارات:
-                            <a href="{% url 'shop:publisher_details' book.publisher.id %}">
-                                {{ book.publisher.title }}</a>
+                        انتشارات:
+                            {% if book.publisher.id is not null %}
+                                <a href="{% url 'shop:publisher_details' book.publisher.id %}">
+                                    {{ book.publisher.title }}</a>
+                                {% else %}
+                                ثبت نشده است
+                            {% endif %}
                         </span><br/>
                         <span>
-                            سال انتشار:
-                            {{ book.year }}
-                        </span><br/>
+                                سال انتشار:
+                                 {{ book.year|default:'ثبت نشده است' }}
+                            </span><br/>
                             تعداد صفجه:
-                            {{ book.page_count }}
+                             {{ book.page_count|default:'ثبت نشده است' }}
                         </span><br/>
                         <span>
                             موجودی:
-                            {{ book.available_count }}
+                            {{ book.available_count|default:'ناموجود' }}
                         </span><br/>
                         <span>
                             میانگین امتیازات کابران به این محصول:
@@ -62,7 +66,7 @@
                         </span><br/>
                         <span>
                             قیمت:
-                            {{ book.price }}
+                            {{ book.price|default:'ثبت نشده است' }}
                         </span><br/>
                         <span>
                             <a href="{% url 'shop:wiki' book.title %}" class="text-right">

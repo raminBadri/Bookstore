@@ -113,7 +113,7 @@
                             <div class="navbar-nav text-center" id="category">
                                 <a href="#" id="sidebar-subject" class="nav-item nav-link btn disabled">دسته بندی موضوعی</a>
                                 {% for genre in all_genres %}
-                                    <a href="#" class="px-5 nav-item nav-link wow fadeInRight"
+                                    <a href="{% url 'shop:book_by_genre' genre.id %}" class="px-5 nav-item nav-link wow fadeInRight"
                                        data-wow-delay="0.{{ forloop.counter }}s">{{ genre.title }}
                                     </a>
                                 {% endfor %}
@@ -141,7 +141,7 @@
                                     {% for book in nominated_books %}
                                         <div class="carousel-item h-100 {% if forloop.counter0 == 0 %}
                                                                                   active {% endif %}">
-                                            <a href="#">
+                                            <a href="{% url 'shop:book_details' book.pk %}">
                                                 <img src="{{ book.cover.url }}" class="d-block w-100 h-100">
                                             </a>
                                         </div>
@@ -202,12 +202,14 @@
                                                                             {% static 'img/no-image.jpg' %}
                                                                        {% endif %}" />
                             <h4 class="mb-3">
-                                <a href="#">
+                                <a href="{% url 'shop:author_details' point_of_day.pk %}">
                                     {{ point_of_day.name }}
                                 </a>
                             </h4>
                             <h6 class="text-muted mb-4">
-                                بیوگرافی
+                                <a href="{% url 'shop:author_details' point_of_day.pk %}">
+                                    بیوگرافی
+                                </a>
                             </h6>
                             <p class="mb-4 px-3">
                                 {{ point_of_day.quote }}
@@ -311,7 +313,7 @@
                                                                             {% static 'img/no-image.jpg' %}
                                                                        {% endif %}" />
                             <h4 class="mb-3">
-                                <a href="#">
+                                <a href="{% url 'shop:author_details' nominated_author.pk %}">
                                     {{ nominated_author.name }}
                                 </a>
                             </h4>
@@ -324,7 +326,7 @@
                                 {{ nominated_author.bio|truncatechars:specifier }}
                             </p>
                         {% endwith %}
-                            <a href="#">
+                            <a href="{% url 'shop:author_details' nominated_author.pk %}">
                                 <i class="fa fa-hand-pointer-o"></i>
                                 بیشتر بخوانید...
                             </a>

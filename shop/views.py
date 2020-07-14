@@ -70,6 +70,16 @@ class PublisherDetailView(DeleteView):
         context = super().get_context_data(**kwargs)
         context['all_genres'] = Genre.objects.all()
         return context
+
+
+class BookDetailView(DeleteView):
+    model = Genre
+    template_name = 'shop/book_by_genre.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_genres'] = Genre.objects.all()
+        return context
 ############################
 
 
@@ -88,3 +98,5 @@ def about_us(request):
 def contact_us(request):
     genres = Genre.objects.all()
     return render(request, 'contactus.html', {'all_genres': genres})
+
+
