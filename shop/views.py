@@ -40,8 +40,13 @@ def index(request):
 def list_authors(request):
     authors = Author.objects.all()
     genres = Genre.objects.all()
+    author = get_random_object(1, Author)
+    nominated_author = get_random_object(1, Author)
     return render(request, 'shop/authors.html', {'all_authors': authors,
-                                                 'all_genres': genres})
+                                                 'all_genres': genres,
+                                                 'point_of_day': author,
+                                                 'nominated_author': nominated_author,
+                                                 })
 
 
 def show_author(request, id):
@@ -59,10 +64,12 @@ class PublisherListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['all_genres'] = Genre.objects.all()
+        context['point_of_day'] = get_random_object(1, Author)
+        context['nominated_author'] = get_random_object(1, Author)
         return context
 
 
-class PublisherDetailView(DeleteView):
+class PublisherDetailView(DetailView):
     model = Publisher
     template_name = 'shop/publisher-details.html'
 
@@ -72,13 +79,15 @@ class PublisherDetailView(DeleteView):
         return context
 
 
-class BookDetailView(DeleteView):
+class BookDetailView(DetailView):
     model = Genre
     template_name = 'shop/book_by_genre.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['all_genres'] = Genre.objects.all()
+        context['point_of_day'] = get_random_object(1, Author)
+        context['nominated_author'] = get_random_object(1, Author)
         return context
 ############################
 

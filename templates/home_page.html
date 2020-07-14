@@ -196,13 +196,13 @@
                             </p>
                         </div>
                         <div class="card-body">
-                            <img class="rounded-circle w-50 mb-3" src="{% if point_of_day.profile_pic.url %}
+                            <img class="rounded-circle w-50 mb-3" src="{% if point_of_day.profile_pic.url is not null %}
                                                                             {{ point_of_day.profile_pic.url }}
                                                                        {% else %}
                                                                             {% static 'img/no-image.jpg' %}
                                                                        {% endif %}" />
                             <h4 class="mb-3">
-                                <a href="{% url 'shop:author_details' point_of_day.pk %}">
+                                <a href="{% url 'shop:author_details' point_of_day.id %}">
                                     {{ point_of_day.name }}
                                 </a>
                             </h4>
@@ -212,7 +212,7 @@
                                 </a>
                             </h6>
                             <p class="mb-4 px-3">
-                                {{ point_of_day.quote }}
+                                {{ point_of_day.quote|default:'مطلبی موجود نمی باشد' }}
                             </p>
                         </div>
                     </div>
