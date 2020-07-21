@@ -6,15 +6,22 @@ app_name = 'shop'
 
 urlpatterns = [
     path('', views.index, name='home_page'),
-    path('all-authors/', views.list_authors, name='all_authors'),
+    path('all-authors/', views.authors_list, name='all_authors'),
     path('author-details/<int:id>', views.show_author, name='author_details'),
     path('wikipedia/<str:name>/',
          RedirectView.as_view(url="https://fa.wikipedia.org/wiki/%(name)s"), name='wiki'),
-    path('all-publishers/', views.PublisherListView.as_view(), name='all_publishers'),
-    path('publisher-detail/<int:pk>', views.PublisherDetailView.as_view(), name='publisher_details'),
+    path('all-publishers/', views.publishers_list, name='all_publishers'),
+    path('publisher-details/<int:id>', views.show_publisher, name='publisher_details'),
     path('book-details/<int:pk>', views.show_book, name='book_details'),
+    path('book-by-genre/<int:id>', views.book_by_genre, name='book_by_genre'),
+    path('search/', views.simple_search, name='simple_search'),
+    path('advanced-search/', views.advanced_search, name='advanced_search'),
+    path('advanced-search-result/', views.advanced_search, name='advanced_search_result'),
     path('aboutus/', views.about_us, name='aboutus'),
     path('contactus/', views.contact_us, name='contactus'),
-    path('genres/<int:pk>', views.BookDetailView.as_view(), name='book_by_genre'),
+    # class based view urls
+    # path('all-publishers/', views.PublisherListView.as_view(), name='all_publishers'),
+    # path('publisher-detail/<int:pk>', views.PublisherDetailView.as_view(), name='publisher_details'),
+    # path('genres/<int:pk>', views.BookDetailView.as_view(), name='book_by_genre'),
 
 ]

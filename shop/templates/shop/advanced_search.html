@@ -1,0 +1,51 @@
+{% extends 'home_page.html' %}
+{% load staticfiles %}
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Book Advanced Search{% endblock %}</title>
+</head>
+<body>
+{% block main_content %}
+    <div class="col-md-8 p-2">
+        <div class="row">
+        {% if result.count != 0 %}
+            {% for book in result %}
+                <div class="col-md-6 card wow fadeInRight text-center border-0" id="point-of-day"
+                     data-wow-delay="0.5s" data-wow-offset="200">
+                    <div class="card-body my-shadow mb-2" style="background-color: lightgray">
+                        <img class="rounded-circle w-50 mb-3" src="{% if book.cover.url is not null %}
+                                                                    {{ book.cover.url }}
+                                                               {% else %}
+                                                                    {% static 'img/no-image.jpg' %}
+                                                               {% endif %}"/>
+                        <h4 class="mb-3">
+                            <a href="{% url 'shop:book_details' book.id %}">
+                                {{ book.title }}
+                            </a>
+                        </h4>
+                        <h6 class="text-muted mb-4">
+                            <a href="{% url 'shop:book_details' book.id %}">
+                                برای اطلاعات بیشتر کلیک کنید
+                            </a>
+                        </h6>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <span class="text-danger font-weight-bold mx-auto mt-5">
+                متاسفانه کتابی با این عنوان در سایت موجود نمی باشد!
+            </span>
+            <a href="{% url 'shop:home_page' %}" class="mx-auto mt-5 btn btn-info">
+                <span class="pl-2">بازگشت به صفحه اصلی</span>
+                <i class="fa fa-arrow-left"></i>
+            </a>
+        {% endif %}
+        </div>
+    </div>
+{% endblock %}
+{% block lower_content %}{% endblock %}
+</body>
+</html>
