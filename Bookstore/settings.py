@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap4',
     'bootstrap_datepicker_plus',
+    'rest_framework',
     'shop',
 ]
 

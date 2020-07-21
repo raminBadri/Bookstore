@@ -1,17 +1,21 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Max, Count, Q
+from rest_framework.decorators import api_view
+from rest_framework import status
+from rest_framework.response import Response
 from django.views.generic import *
-import random
+from .serializers import *
 from .models import *
 from .forms import *
+import random
 
 
 # this method is to find a random record from a given model of models.py
 def get_random_object(minimum, model):
-    max_id = model.objects.all().aggregate(max_id=Max("id"))['max_id']
+    max_id = model.objects.filter(is_deleted=False).aggregate(max_id=Max("id"))['max_id']
     random_id = random.randint(minimum, max_id)
-    random_object = model.objects.filter(pk=random_id).first()
+    random_object = model.objects.filter(pk=random_id, is_deleted=False).first()
     return random_object
 
 
@@ -30,8 +34,8 @@ def simple_search(request):
         form = SimpleSearch(request.POST)
         if form.is_valid():
             title = form.cleaned_data['title']
-            result = Book.objects.filter(title__contains=title)
-            all_genre = Genre.objects.all()
+            result = Book.objects.filter(title__contains=title, is_deleted=False)
+            all_genre = Genre.objects.filter(is_deleted=False)
             if result.count() != 0:
                 return render(request, 'shop/simple_search.html', {'result': result,
                                                                    'all_genres': all_genre,
@@ -46,8 +50,8 @@ def simple_search(request):
 
 # this view fills home page's requirements
 def index(request):
-    genres = Genre.objects.all()
-    books = Book.objects.all()[:3]
+    genres = Genre.objects.filter(is_deleted=False)
+    books = Book.objects.filter(is_deleted=False)[:3]
     author = get_random_object(1, Author)
     nominated_author = get_random_object(1, Author)
     form = simple_search(request)
@@ -61,8 +65,8 @@ def index(request):
 
 # we could use class based views too
 def authors_list(request):
-    authors = Author.objects.all()
-    genres = Genre.objects.all()
+    authors = Author.objects.filter(is_deleted=False)
+    genres = Genre.objects.filter(is_deleted=False)
     author = get_random_object(1, Author)
     nominated_author = get_random_object(1, Author)
     form = simple_search(request)
@@ -75,8 +79,8 @@ def authors_list(request):
 
 
 def show_author(request, id):
-    author = Author.objects.get(pk=id)
-    genres = Genre.objects.all()
+    author = Author.objects.filter(is_deleted=False, pk=id)
+    genres = Genre.objects.filter(is_deleted=False)
     form = simple_search(request)
     return render(request, 'shop/author-details.html', {'author': author,
                                                         'all_genres': genres,
@@ -84,10 +88,10 @@ def show_author(request, id):
 
 
 def publishers_list(request):
-    all_genres = Genre.objects.all()
+    all_genres = Genre.objects.filter(is_deleted=False)
     point_of_day = get_random_object(1, Author)
     nominated_author = get_random_object(1, Author)
-    all_publishers = Publisher.objects.all()
+    all_publishers = Publisher.objects.filter(is_deleted=False)
     form = simple_search(request)
     return render(request, 'shop/publishers.html', {'all_genres': all_genres,
                                                     'point_of_day': point_of_day,
@@ -98,8 +102,8 @@ def publishers_list(request):
 
 
 def show_publisher(request, id):
-    publisher = Publisher.objects.get(pk=id)
-    all_genres = Genre.objects.all()
+    publisher = Publisher.objects.filter(is_deleted=False, pk=id)
+    all_genres = Genre.objects.filter(is_deleted=False)
     form = simple_search(request)
     return render(request, 'shop/publisher-details.html', {'publisher': publisher,
                                                            'all_genres': all_genres,
@@ -108,8 +112,8 @@ def show_publisher(request, id):
 
 
 def book_by_genre(request, id):
-    genre = Genre.objects.get(pk=id)
-    all_genres = Genre.objects.all()
+    genre = Genre.objects.filter(is_deleted=False, pk=id)
+    all_genres = Genre.objects.filter(is_deleted=False)
     point_of_day = get_random_object(1, Author)
     nominated_author = get_random_object(1, Author)
     form = simple_search(request)
@@ -122,8 +126,8 @@ def book_by_genre(request, id):
 
 
 def show_book(request, pk):
-    book = Book.objects.get(pk=pk)
-    genres = Genre.objects.all()
+    book = Book.objects.filter(is_deleted=False, pk=id)
+    genres = Genre.objects.filter(is_deleted=False)
     form = simple_search(request)
     return render(request, 'shop/book-details.html', {'book': book,
                                                       'all_genres': genres,
@@ -182,15 +186,15 @@ def advanced_search(request):
             #           | Q(author__name__contains=form.cleaned_data['author_name']) \
             #           | Q(publisher__title__contains=form.cleaned_data['publisher_title']) \
             #           | Q(genre__title__contains=form.cleaned_data['genre_title'])
-            result = Book.objects.filter(query_1)
-            genres = Genre.objects.all()
+            result = Book.objects.filter(query_1, is_deleted=False)
+            genres = Genre.objects.filter(is_deleted=False)
             form = simple_search(request)
             return render(request, 'shop/advanced_search.html', {'result': result,
                                                                  'form': form,
                                                                  'all_genres': genres})
     else:
         adv_form = AdvancedSearch()
-        genres = Genre.objects.all()
+        genres = Genre.objects.filter(is_deleted=False)
         form = simple_search(request)
         return render(request, 'shop/advanced_search_form.html', {'adv_form': adv_form,
                                                                   'all_genres': genres,
@@ -198,14 +202,49 @@ def advanced_search(request):
 
 
 def about_us(request):
-    genres = Genre.objects.all()
+    genres = Genre.objects.filter(is_deleted=False)
     form = simple_search(request)
     return render(request, 'aboutus.html', {'all_genres': genres,
                                             'form': form})
 
 
 def contact_us(request):
-    genres = Genre.objects.all()
+    genres = Genre.objects.filter(is_deleted=False)
     form = simple_search(request)
     return render(request, 'contactus.html', {'all_genres': genres,
                                               'form': form})
+
+
+# REST API methods using DRF
+@api_view(['GET', 'POST'])
+def api_book_list(request):
+    if request.method == 'GET':
+        book_list = Book.objects.filter(is_deleted=False)
+        serializer = BookSerializer(book_list, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    elif request.method == 'POST':
+        serializer = BookSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def api_book_details(request, pk, format=None):
+    try:
+        book = Book.objects.get(pk=pk)
+    except Book.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'GET':
+        serializer = BookSerializer(book)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    elif request.method == 'PUT':
+        serializer = BookSerializer(book, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'DELETE':
+        book.is_deleted = False
+        return Response(status=status.HTTP_204_NO_CONTENT)
