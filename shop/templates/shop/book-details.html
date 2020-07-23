@@ -37,7 +37,7 @@
                         <span>
                             ژانر کتاب:
                             {% for genre in book.genre.all %}
-                                <a href="{% url 'shop:home_page' %}">{{ genre.title }}</a>,
+                                <a href="{% url 'shop:book_by_genre' genre.id %}">{{ genre.title }}</a>,
                             {% endfor %}
                         </span><br/>
                         <span>

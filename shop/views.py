@@ -34,7 +34,7 @@ def simple_search(request):
         form = SimpleSearch(request.POST)
         if form.is_valid():
             title = form.cleaned_data['title']
-            result = Book.objects.filter(title__contains=title, is_deleted=False)
+            result = Book.objects.filter(title__contains=title).filter(is_deleted=False)
             all_genre = Genre.objects.filter(is_deleted=False)
             if result.count() != 0:
                 return render(request, 'shop/simple_search.html', {'result': result,
@@ -79,7 +79,7 @@ def authors_list(request):
 
 
 def show_author(request, id):
-    author = Author.objects.filter(is_deleted=False, pk=id)
+    author = Author.objects.filter(is_deleted=False).get(pk=id)
     genres = Genre.objects.filter(is_deleted=False)
     form = simple_search(request)
     return render(request, 'shop/author-details.html', {'author': author,
@@ -102,7 +102,7 @@ def publishers_list(request):
 
 
 def show_publisher(request, id):
-    publisher = Publisher.objects.filter(is_deleted=False, pk=id)
+    publisher = Publisher.objects.filter(is_deleted=False).get(pk=id)
     all_genres = Genre.objects.filter(is_deleted=False)
     form = simple_search(request)
     return render(request, 'shop/publisher-details.html', {'publisher': publisher,
@@ -112,7 +112,7 @@ def show_publisher(request, id):
 
 
 def book_by_genre(request, id):
-    genre = Genre.objects.filter(is_deleted=False, pk=id)
+    genre = Genre.objects.filter(is_deleted=False).get(pk=id)
     all_genres = Genre.objects.filter(is_deleted=False)
     point_of_day = get_random_object(1, Author)
     nominated_author = get_random_object(1, Author)
@@ -126,7 +126,7 @@ def book_by_genre(request, id):
 
 
 def show_book(request, pk):
-    book = Book.objects.filter(is_deleted=False, pk=id)
+    book = Book.objects.filter(is_deleted=False).get(pk=pk)
     genres = Genre.objects.filter(is_deleted=False)
     form = simple_search(request)
     return render(request, 'shop/book-details.html', {'book': book,
@@ -216,6 +216,7 @@ def contact_us(request):
 
 
 # REST API methods using DRF
+# Book APIs
 @api_view(['GET', 'POST'])
 def api_book_list(request):
     if request.method == 'GET':
@@ -230,9 +231,9 @@ def api_book_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def api_book_details(request, pk, format=None):
+def api_book_details(request, pk):
     try:
-        book = Book.objects.get(pk=pk)
+        book = Book.objects.filter(is_deleted=False).get(pk=id)
     except Book.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
@@ -248,3 +249,49 @@ def api_book_details(request, pk, format=None):
     elif request.method == 'DELETE':
         book.is_deleted = False
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+# Author APIs
+@api_view(['GET', 'POST'])
+def api_author_list(request):
+    if request.method == 'GET':
+        author_list = Author.objects.filter(is_deleted=False)
+        serializer = AuthorSerializer(author_list, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    elif request.method == 'POST':
+        serializer = AuthorSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+def api_author_details(request, pk):
+    try:
+        author = Author.objects.filter(is_deleted=False).get(pk=id)
+    except Book.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'GET':
+        serializer = AuthorSerializer(author)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    elif request.method == 'PUT':
+        serializer = AuthorSerializer(author, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'DELETE':
+        author.is_deleted = True
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+# Publisher APIs
+@api_view(['GET', 'POST'])
+def api_publisher_list(request):
+    if request.method == 'GET':
+        publisher_list = Publisher.objects.filter(is_deleted=False)
+        serializer = PublisherSerializer(publisher_list, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    elif request.method == 'POST':
+        serializer = PublisherSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)

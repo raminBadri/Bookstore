@@ -1,20 +1,16 @@
 {% load staticfiles %}
-{% load bootstrap4 %}
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>{% block title %}Bookstore Shop{% endblock %}</title>
-    {% bootstrap_css %}
-    {% bootstrap_messages %}
     <link href="{%  static 'css/rtl.css' %}" rel="stylesheet" type="text/css" />
     <link href="{%  static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
     <link href="{%  static 'css/animate.min.css' %}" rel="stylesheet" type="text/css" />
     <link href="{%  static 'css/owl.carousel.min.css' %}" rel="stylesheet" type="text/css" />
     <link href="{%  static 'css/home_page.css' %}" rel="stylesheet" type="text/css" />
     <link href="{%  static 'css/font-awesome.min.css' %}" rel="stylesheet" type="text/css" />
-    {% bootstrap_javascript jquery='full' %}
     {% block head %}{% endblock %}
 
 </head>
@@ -97,6 +93,21 @@
                                    data-wow-delay="0.3s">درباه ما</a>
                                 <a href="{% url 'shop:contactus' %}" class="px-md-4 nav-item nav-link wow fadeInRight"
                                    data-wow-delay="0.4s">تماس با ما</a>
+                                <div class="dropdown px-md-4 nav-item wow fadeInRight"
+                                   data-wow-delay="0.5s">
+                                    <button class="btn dropdown-toggle"
+                                            type="button" data-toggle="dropdown">
+                                        درخواست API
+                                    </button>
+                                    <div class="dropdown-menu text-right">
+                                        <a class="dropdown-item" href="{% url 'shop:api-book-list' %}">
+                                            لیست کتاب ها</a>
+                                        <a class="dropdown-item" href="{% url 'shop:api-author-list' %}">
+                                            لیست نویسنده ها</a>
+                                        <a class="dropdown-item" href="{% url 'shop:api-publisher-list' %}">
+                                            لیست ناشران</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </nav>

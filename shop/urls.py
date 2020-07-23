@@ -21,7 +21,10 @@ urlpatterns = [
     path('contactus/', views.contact_us, name='contactus'),
     # api urls
     path('api/books', views.api_book_list, name='api-book-list'),
-    path('api/book-details/<int:pk>', views.api_book_details, name='api-book-details'),
+    path('api/book-details/<int:pk>/', views.api_book_details, name='api-book-details'),
+    path('api/authors', views.api_author_list, name='api-author-list'),
+    path('api/author-details/<int:pk>/', views.api_author_list, name='api-author-details'),
+    path('api/publisher-list', views.api_publisher_list, name='api-publisher-list'),
     # class based view urls
     # path('all-publishers/', views.PublisherListView.as_view(), name='all_publishers'),
     # path('publisher-detail/<int:pk>', views.PublisherDetailView.as_view(), name='publisher_details'),
