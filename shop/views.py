@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Max, Count, Q
+from django.contrib.auth import views as auth_views
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
@@ -295,3 +296,16 @@ def api_publisher_list(request):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+# login view needs to be change because it extends home.html
+class MyLoginView(auth_views.LoginView):
+    template_name = 'registration/login.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        genres = Genre.objects.filter(is_deleted=False)
+        context.update({
+            'all_genres': genres,
+        })
+        return context

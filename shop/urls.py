@@ -25,6 +25,7 @@ urlpatterns = [
     path('api/authors', views.api_author_list, name='api-author-list'),
     path('api/author-details/<int:pk>/', views.api_author_list, name='api-author-details'),
     path('api/publisher-list', views.api_publisher_list, name='api-publisher-list'),
+    path('login',  views.MyLoginView.as_view(), name="extended_login")
     # class based view urls
     # path('all-publishers/', views.PublisherListView.as_view(), name='all_publishers'),
     # path('publisher-detail/<int:pk>', views.PublisherDetailView.as_view(), name='publisher_details'),
