@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$USER_HOME$/shop_author.sql" dialect="MySQL" />
+    <file url="file://$USER_HOME$/shop_book.sql" dialect="MySQL" />
+    <file url="file://$USER_HOME$/shop_book_genre.sql" dialect="MySQL" />
+    <file url="file://$USER_HOME$/shop_comment.sql" dialect="MySQL" />
+    <file url="file://$USER_HOME$/shop_genre.sql" dialect="MySQL" />
+    <file url="file://$USER_HOME$/shop_publisher.sql" dialect="MySQL" />
+    <file url="file://$USER_HOME$/shop_score.sql" dialect="MySQL" />
+  </component>
+</project>

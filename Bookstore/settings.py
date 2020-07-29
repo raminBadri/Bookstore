@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'bootstrap_datepicker_plus',
     'rest_framework',
+    'account',
     'shop',
 ]
 
@@ -165,3 +166,5 @@ MESSAGE_TAGS = {
 BOOTSTRAP4 = {
     'include_jquery': True,
 }
+
+AUTH_USER_MODEL = 'account.ShopUser'

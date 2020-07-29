@@ -20,16 +20,22 @@
             <div class="row mb-2 py-1 my-shadow">
                 <div class="col">
                     <ul class="list-unstyled d-flex ">
-                        <li>
-                            <a href="#"><i class="fa fa-user"></i>
-                                <span class="d-none d-md-inline">کاربر مهمان خوش آمدید</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-sign-in"></i>
-                                <span class="d-none d-md-inline">ورود</span>
-                            </a>
-                        </li>
+                        {% if user.is_authenticated %}
+                            <li>
+                                <a href="#"><i class="fa fa-user"></i>
+                                    <span class="d-none d-md-inline">خوش امدی {{ user.username }}</span>
+                                </a>
+                                <a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>
+                                    <span class="d-none d-md-inline">خروج</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{% url 'shop:extended_login' %}"><i class="fa fa-sign-in"></i>
+                                    <span class="d-none d-md-inline">ورود</span>
+                                </a>
+                            </li>
+                        {% endif %}
                         <li>
                             <a href="#" ><i class="fa fa-user-plus"></i>
                                 <span class="d-none d-md-inline">ثبت نام</span>
@@ -51,6 +57,7 @@
                     </a>
                 </div>
                 <div class="col-xs-6 col-md-4 text-center pt-3">
+                    {% block search %}
                         <form action="{% url 'shop:simple_search' %}" method="post">
                             {% csrf_token %}
                                     جستجوی عنوان کتاب
@@ -62,6 +69,7 @@
                                     </button>
                                 </div>
                         </form>
+                    {% endblock %}
                 </div>
                 <div id="basket" class="col-md-4 text-left mt-3">
                     <a href="#" class="btn">

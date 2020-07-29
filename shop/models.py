@@ -1,5 +1,7 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.db import models
+
+shop_user = get_user_model()
 
 
 class AbstractModel(models.Model):
@@ -44,7 +46,7 @@ class Publisher(AbstractModel):
 
 class Score(AbstractModel):
     amount = models.IntegerField(null=True, blank=True)
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    user = models.ForeignKey(shop_user, on_delete=models.PROTECT)
 
     def __str__(self):
         return '{} to {}'.format(self.user, self.amount)
@@ -52,10 +54,10 @@ class Score(AbstractModel):
 
 class Comment(AbstractModel):
     context = models.TextField()
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    user = models.ForeignKey(shop_user, on_delete=models.PROTECT)
 
     def __str__(self):
-        return '{} has said: {}'.format(self.user.username, self.context)
+        return '{} has said: {}'.format(self.user, self.context)
 
 
 class Book(AbstractModel):
