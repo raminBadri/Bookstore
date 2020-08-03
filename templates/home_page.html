@@ -31,13 +31,13 @@
                             </li>
                         {% else %}
                             <li>
-                                <a href="{% url 'shop:extended_login' %}"><i class="fa fa-sign-in"></i>
+                                <a href="{% url 'login' %}"><i class="fa fa-sign-in"></i>
                                     <span class="d-none d-md-inline">ورود</span>
                                 </a>
                             </li>
                         {% endif %}
                         <li>
-                            <a href="#" ><i class="fa fa-user-plus"></i>
+                            <a href="{% url 'account:signup' %}" ><i class="fa fa-user-plus"></i>
                                 <span class="d-none d-md-inline">ثبت نام</span>
                             </a>
                         <li>

@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'bootstrap4',
     'bootstrap_datepicker_plus',
     'rest_framework',
-    'account',
     'shop',
+    'account',
 ]
 
 MIDDLEWARE = [
