@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Max, Count, Q
 from django.contrib.auth import views as auth_views
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
@@ -12,7 +14,7 @@ from .forms import *
 import random
 
 
-# this method is to find a random record from a given model of models.py
+# This method is to find a random record from a given model of models.py
 def get_random_object(minimum, model):
     max_id = model.objects.filter(is_deleted=False).aggregate(max_id=Max("id"))['max_id']
     random_id = random.randint(minimum, max_id)
@@ -20,8 +22,8 @@ def get_random_object(minimum, model):
     return random_object
 
 
-# this method is to find best 3 books of a given genre to
-# fill home page's best books of a genre box
+# This method is to find best 3 books of a given genre to
+# Fill home page's best books of a genre box
 def find_best_books():
     result = Genre.objects.annotate(Count('book'))
     for _ in result:
@@ -29,7 +31,7 @@ def find_best_books():
             return _
 
 
-# simple book search method
+# Simple book search method
 def simple_search(request):
     if request.method == "POST":
         form = SimpleSearch(request.POST)
@@ -49,7 +51,7 @@ def simple_search(request):
         return form
 
 
-# this view fills home page's requirements
+# This view fills home page's requirements
 def index(request):
     genres = Genre.objects.filter(is_deleted=False)
     books = Book.objects.filter(is_deleted=False)[:3]
@@ -64,7 +66,7 @@ def index(request):
                                               })
 
 
-# we could use class based views too
+# We could use class based views too
 def authors_list(request):
     authors = Author.objects.filter(is_deleted=False)
     genres = Genre.objects.filter(is_deleted=False)
@@ -136,7 +138,7 @@ def show_book(request, pk):
 
 
 #############################
-# class based list and detail view sample for publisher model
+# Class based list and detail view sample for publisher model
 # class PublisherListView(ListView):
 #     model = Publisher
 #     template_name = 'shop/publishers.html'
@@ -215,10 +217,11 @@ def contact_us(request):
     return render(request, 'contactus.html', {'all_genres': genres,
                                               'form': form})
 
-
+############################
 # REST API methods using DRF
 # Book APIs
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'POST'])  # This decorator is used to block any other requests except GET and POST
+@permission_classes([IsAuthenticated])  # This decorator allows for authenticated users only to pass
 def api_book_list(request):
     if request.method == 'GET':
         book_list = Book.objects.filter(is_deleted=False)
@@ -231,7 +234,8 @@ def api_book_list(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-@api_view(['GET', 'PUT', 'DELETE'])
+@api_view(['GET', 'PUT', 'DELETE'])  # Here only POST requests will not be allowed
+@permission_classes([IsAuthenticated])  # This decorator allows for authenticated users only to pass
 def api_book_details(request, pk):
     try:
         book = Book.objects.filter(is_deleted=False).get(pk=id)
@@ -247,12 +251,15 @@ def api_book_details(request, pk):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    elif request.method == 'DELETE':
+        # If a user wants to delete a book from DB,
+        # He/She must also have delete permission on the book objects,
+    elif request.method == 'DELETE' and request.user.has_perm('shop.delete_book'):
         book.is_deleted = False
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 # Author APIs
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'POST'])  # Here only POST and GET requests are allowed
+@permission_classes([IsAuthenticated])  # This decorator allows for authenticated users only to pass
 def api_author_list(request):
     if request.method == 'GET':
         author_list = Author.objects.filter(is_deleted=False)
@@ -265,6 +272,8 @@ def api_author_list(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
+@api_view(['GET', 'PUT', 'DELETE'])  # Here only POST requests will not be allowed
+@permission_classes([IsAuthenticated])  # This decorator allows for authenticated users only to pass
 def api_author_details(request, pk):
     try:
         author = Author.objects.filter(is_deleted=False).get(pk=id)
@@ -280,13 +289,15 @@ def api_author_details(request, pk):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    elif request.method == 'DELETE':
+        # If a user wants to delete a book from DB,
+        # He/She must also have delete permission on the author objects,
+    elif request.method == 'DELETE' and request.user.has_perm('shop.delete_author'):
         author.is_deleted = True
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 # Publisher APIs
-@api_view(['GET', 'POST'])
-def api_publisher_list(request):
+@api_view(['GET', 'POST'])  # Here only POST and GET requests will not be allowed
+def api_publisher_list(request):  # This decorator allows for authenticated users only to pass
     if request.method == 'GET':
         publisher_list = Publisher.objects.filter(is_deleted=False)
         serializer = PublisherSerializer(publisher_list, many=True)
@@ -296,6 +307,7 @@ def api_publisher_list(request):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+############################
 
 
 # login view needs to be change because it extends home.html
