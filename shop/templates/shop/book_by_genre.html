@@ -19,6 +19,7 @@
         </div>
         <div class="row">
         {% for book in genre.book_set.all %}
+            {% if not book.is_deleted %}
             <div class="col-md-6 card wow fadeInRight text-center border-0" id="point-of-day"
                  data-wow-delay="0.5s" data-wow-offset="200">
                 <div class="card-body my-shadow mb-2" style="background-color: lightgray">
@@ -43,6 +44,7 @@
 {#                    </p>#}
                 </div>
             </div>
+            {% endif %}
         {% endfor %}
         </div>
     </div>

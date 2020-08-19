@@ -176,12 +176,19 @@ BOOTSTRAP4 = {
 AUTH_USER_MODEL = 'account.ShopUser'
 ####
 
-# Rest Authentication methods
+"""
+Here are Django Rest Framework - DFR - global settings including:
+    1) Authentication method: I use TokenAuth as the authentication's method
+    2) Permissions : I want to allow only authenticated users to access APIs
+"""
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
         # 'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',  # I have chosen this one as my API authentication
-    ]
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        # 'rest_framework.permissions.IsAuthenticated',
+    ],
+
 }
 ####

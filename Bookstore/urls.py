@@ -17,10 +17,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from .api_urls import router
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('shop.urls', namespace='shop')),
+    path('api/', include(router.urls)),
     path('shop/', include('shop.urls', namespace='shop')),
     path('account/', include('account.urls', namespace='account')),
     path('account/', include('django.contrib.auth.urls')),

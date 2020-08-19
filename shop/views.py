@@ -1,14 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Max, Count, Q
 from django.contrib.auth import views as auth_views
-from rest_framework.decorators import permission_classes
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import api_view
-from rest_framework import status
-from rest_framework.response import Response
-from django.views.generic import *
-from .serializers import *
 from .models import *
 from .forms import *
 import random
@@ -216,98 +208,6 @@ def contact_us(request):
     form = simple_search(request)
     return render(request, 'contactus.html', {'all_genres': genres,
                                               'form': form})
-
-############################
-# REST API methods using DRF
-# Book APIs
-@api_view(['GET', 'POST'])  # This decorator is used to block any other requests except GET and POST
-@permission_classes([IsAuthenticated])  # This decorator allows for authenticated users only to pass
-def api_book_list(request):
-    if request.method == 'GET':
-        book_list = Book.objects.filter(is_deleted=False)
-        serializer = BookSerializer(book_list, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    elif request.method == 'POST':
-        serializer = BookSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-@api_view(['GET', 'PUT', 'DELETE'])  # Here only POST requests will not be allowed
-@permission_classes([IsAuthenticated])  # This decorator allows for authenticated users only to pass
-def api_book_details(request, pk):
-    try:
-        book = Book.objects.filter(is_deleted=False).get(pk=id)
-    except Book.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    if request.method == 'GET':
-        serializer = BookSerializer(book)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    elif request.method == 'PUT':
-        serializer = BookSerializer(book, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        # If a user wants to delete a book from DB,
-        # He/She must also have delete permission on the book objects,
-    elif request.method == 'DELETE' and request.user.has_perm('shop.delete_book'):
-        book.is_deleted = False
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-# Author APIs
-@api_view(['GET', 'POST'])  # Here only POST and GET requests are allowed
-@permission_classes([IsAuthenticated])  # This decorator allows for authenticated users only to pass
-def api_author_list(request):
-    if request.method == 'GET':
-        author_list = Author.objects.filter(is_deleted=False)
-        serializer = AuthorSerializer(author_list, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    elif request.method == 'POST':
-        serializer = AuthorSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-@api_view(['GET', 'PUT', 'DELETE'])  # Here only POST requests will not be allowed
-@permission_classes([IsAuthenticated])  # This decorator allows for authenticated users only to pass
-def api_author_details(request, pk):
-    try:
-        author = Author.objects.filter(is_deleted=False).get(pk=id)
-    except Book.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    if request.method == 'GET':
-        serializer = AuthorSerializer(author)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    elif request.method == 'PUT':
-        serializer = AuthorSerializer(author, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        # If a user wants to delete a book from DB,
-        # He/She must also have delete permission on the author objects,
-    elif request.method == 'DELETE' and request.user.has_perm('shop.delete_author'):
-        author.is_deleted = True
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-# Publisher APIs
-@api_view(['GET', 'POST'])  # Here only POST and GET requests will not be allowed
-def api_publisher_list(request):  # This decorator allows for authenticated users only to pass
-    if request.method == 'GET':
-        publisher_list = Publisher.objects.filter(is_deleted=False)
-        serializer = PublisherSerializer(publisher_list, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    elif request.method == 'POST':
-        serializer = PublisherSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-############################
 
 
 # login view needs to be change because it extends home.html

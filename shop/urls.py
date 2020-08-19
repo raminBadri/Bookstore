@@ -19,14 +19,14 @@ urlpatterns = [
     path('advanced-search-result/', views.advanced_search, name='advanced_search_result'),
     path('aboutus/', views.about_us, name='aboutus'),
     path('contactus/', views.contact_us, name='contactus'),
+    path('login', views.MyLoginView.as_view(), name="extended_login"),
 
     # api urls
-    path('api/books', views.api_book_list, name='api-book-list'),
-    path('api/book-details/<int:pk>/', views.api_book_details, name='api-book-details'),
-    path('api/authors', views.api_author_list, name='api-author-list'),
-    path('api/author-details/<int:pk>/', views.api_author_list, name='api-author-details'),
-    path('api/publisher-list', views.api_publisher_list, name='api-publisher-list'),
-    path('login',  views.MyLoginView.as_view(), name="extended_login"),
+    # path('api/books', api_views.api_book_list, name='api-book-list'),
+    # path('api/book-details/<int:pk>/', api_views.api_book_details, name='api-book-details'),
+    # path('api/authors', api_views.api_author_list, name='api-author-list'),
+    # path('api/author-details/<int:pk>/', api_views.api_author_list, name='api-author-details'),
+    # path('api/publisher-list', api_views.api_publisher_list, name='api-publisher-list'),
     # class based view urls
     # path('all-publishers/', views.PublisherListView.as_view(), name='all_publishers'),
     # path('publisher-detail/<int:pk>', views.PublisherDetailView.as_view(), name='publisher_details'),
