@@ -178,17 +178,17 @@ AUTH_USER_MODEL = 'account.ShopUser'
 
 """
 Here are Django Rest Framework - DFR - global settings including:
-    1) Authentication method: I use TokenAuth as the authentication's method
-    2) Permissions : I want to allow only authenticated users to access APIs
+    1) Authentication method: I use TokenAuth and SessionAuth as the authentication's methods
+    2) Permissions : I want to allow only authenticated users to access all APIs
 """
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework.authentication.TokenAuthentication',
-        # 'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.IsAuthenticated',
-    ],
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ],
 
 }
 ####

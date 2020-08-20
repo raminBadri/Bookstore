@@ -15,6 +15,7 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import viewsets
+from account.models import ShopUser
 from .serializers import *
 from .models import *
 
@@ -99,3 +100,8 @@ class PublisherViewSet(viewsets.ModelViewSet):
     """
     queryset = Publisher.objects.filter(is_deleted=False)
     serializer_class = PublisherSerializer
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = ShopUser.objects.filter(is_active=True)
+    serializer_class = UserSerializer
