@@ -26,6 +26,7 @@ urlpatterns = [
     path('shop/', include('shop.urls', namespace='shop')),
     path('account/', include('account.urls', namespace='account')),
     path('account/', include('django.contrib.auth.urls')),
+    path('api-auth/', include('rest_framework.urls')),
 ]
 
 if settings.DEBUG:

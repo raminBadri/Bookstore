@@ -180,6 +180,10 @@ AUTH_USER_MODEL = 'account.ShopUser'
 Here are Django Rest Framework - DFR - global settings including:
     1) Authentication method: I use TokenAuth and SessionAuth as the authentication's methods
     2) Permissions : I want to allow only authenticated users to access all APIs
+    3) Throttling Policy: This feature allows us to limit amount of incoming requests form 
+       anonymous and authenticated users; There is also a scoped throttle which help us on control 
+       the requests for a specific part  of our API. 
+    4) Pagination: Just a decoration for showing results on browsable api, here every 5 objects will show on each page
 """
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -189,6 +193,15 @@ REST_FRAMEWORK = {
     # 'DEFAULT_PERMISSION_CLASSES': [
     #     'rest_framework.permissions.IsAuthenticated',
     # ],
-
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '500/day',
+        'user': '100/hour'
+    },
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 5
 }
 ####

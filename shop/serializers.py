@@ -36,8 +36,12 @@ class UserSerializer(serializers.ModelSerializer):
             'email': {'write_only': True}
         }
 
-    @staticmethod
-    def validate_username(attrs):
-        if attrs == 'admin':
+    def validate_username(self, value):
+        if value == 'admin':
             raise serializers.ValidationError('username can not be admin')
-        return attrs
+        return value
+
+    def validate_email(self, value):
+        if value is None:
+            raise serializers.ValidationError('Email field can not be empty')
+        return value

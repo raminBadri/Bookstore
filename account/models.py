@@ -7,7 +7,7 @@ class ShopUser(AbstractUser):
     username_validator = UnicodeUsernameValidator()
     gender_types = [('m', 'male'), ('f', 'female')]
     gender = models.CharField(max_length=1, choices=gender_types, null=True, blank=True)
-    email = models.EmailField(unique=True, null=True)
+    email = models.EmailField(unique=True, null=False)
     phone_number = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
