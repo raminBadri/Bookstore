@@ -16,7 +16,6 @@ from django.contrib.messages import constants as message_constants
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -27,7 +26,6 @@ SECRET_KEY = '-y_kjm=x6&20w1$rejr=%#lz1kpzg81@o1zw6m_cqwgc%h4baj'
 DEBUG = True
 
 ALLOWED_HOSTS = ['bookstore.ir', '127.0.0.1']
-
 
 # Application definition
 
@@ -76,7 +74,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Bookstore.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 DATABASES = {
@@ -93,7 +90,6 @@ DATABASES = {
         'PASSWORD': '1qaz@WSX',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -113,7 +109,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -126,7 +121,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
@@ -158,7 +152,6 @@ EMAIL_PORT = 587
 
 # these settings are mean to activate django flash message system
 MESSAGE_LEVEL = message_constants.SUCCESS
-
 MESSAGE_TAGS = {
     message_constants.DEBUG: 'alert-info',
     message_constants.INFO: 'alert-info',
@@ -171,11 +164,15 @@ BOOTSTRAP4 = {
     'include_jquery': True,
 }
 
-
 # setting for custom user model
 AUTH_USER_MODEL = 'account.ShopUser'
 ####
 
+# setting custom authentication system
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'account.authenticate.EmailBackend',
+]
 """
 Here are Django Rest Framework - DFR - global settings including:
     1) Authentication method: I use TokenAuth and SessionAuth as the authentication's methods

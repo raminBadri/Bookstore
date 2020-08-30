@@ -4,6 +4,16 @@ from account.models import ShopUser
 
 
 class BookSerializer(serializers.ModelSerializer):
+    author = serializers.SlugRelatedField(
+        slug_field='name',
+        read_only=True,
+    )
+    genre = serializers.SlugRelatedField(
+        slug_field='title',
+        read_only=True,
+        many=True
+    )
+
     class Meta:
         model = Book
         exclude = ['about', 'creation_date', 'is_deleted', 'is_active', 'modification_date']
