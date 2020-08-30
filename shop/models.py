@@ -3,11 +3,18 @@ from django.db import models
 shop_user = get_user_model()
 
 
+class BookShopManager(models.Manager):  # custom model manager
+    def get_queryset(self):
+        return super().get_queryset().filter(is_deleted=False)
+
+
 class AbstractModel(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     modification_date = models.DateTimeField(auto_now=True)
     is_deleted = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    objects = models.Manager()  # activate default django manager
+    bs_object = BookShopManager()  # custom model manager
 
     class Meta:
         abstract = True

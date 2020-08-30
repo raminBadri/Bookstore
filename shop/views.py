@@ -73,8 +73,15 @@ def authors_list(request):
                                                  })
 
 
+"""
+In the method below, I have used my custom model manager 'bs_object' instead
+of django default manager, objects.
+"""
+
+
 def show_author(request, id):
-    author = Author.objects.filter(is_deleted=False).get(pk=id)
+    # author = Author.objects.filter(is_deleted=False).get(pk=id)
+    author = Author.bs_object.get(pk=id)
     genres = Genre.objects.filter(is_deleted=False)
     form = simple_search(request)
     return render(request, 'shop/author-details.html', {'author': author,
