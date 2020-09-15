@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response, get_object_or_404
 from django.db.models import Max, Count, Q
 from django.contrib.auth import views as auth_views
+from django.urls import reverse
 from .models import *
 from .forms import *
 import random
+from django.http import HttpResponse
 
 
 # This method is to find a random record from a given model of models.py
@@ -228,3 +230,23 @@ class MyLoginView(auth_views.LoginView):
             'all_genres': genres,
         })
         return context
+
+
+# def uikit(request):
+#     return render(request, 'UIkit.html')
+
+#  Custom Error Handler
+def handler_404(request, exception=None):
+    return render(request, '404.html', status=404)
+
+
+def handler_400(request, exception=None):
+    return render(request, '400.html', status=404)
+
+
+def handler_403(request, exception=None):
+    return render(request, '403.html', status=404)
+
+
+def handler_500(request, exception=None):
+    return render(request, '500.html', status=500)

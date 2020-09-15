@@ -1,0 +1,13 @@
+{% extends 'custom_error_base.html' %}
+
+{% block title %}
+    Internal Server Error
+{% endblock %}
+
+{% block error_code %}
+    500
+{% endblock %}
+
+{% block error_context %}
+     	The request was not completed. The server met an unexpected condition.
+{% endblock %}

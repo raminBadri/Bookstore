@@ -18,6 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from .api_urls import router
+from shop import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,3 +32,8 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = views.handler_404
+handler403 = views.handler_403
+handler400 = views.handler_400
+handler500 = views.handler_500

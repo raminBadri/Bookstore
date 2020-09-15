@@ -20,7 +20,7 @@ urlpatterns = [
     path('aboutus/', views.about_us, name='aboutus'),
     path('contactus/', views.contact_us, name='contactus'),
     path('login', views.MyLoginView.as_view(), name="extended_login"),
-
+    # path('uikit', views.uikit, name='uikit'),
     # api urls
     # path('api/books', api_views.api_book_list, name='api-book-list'),
     # path('api/book-details/<int:pk>/', api_views.api_book_details, name='api-book-details'),

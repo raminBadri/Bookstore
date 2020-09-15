@@ -1,0 +1,14 @@
+{% extends 'custom_error_base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    PERMISSION DENIED
+{% endblock %}
+
+{% block error_code %}
+    403
+{% endblock %}
+
+{% block error_context %}
+    Sorry, but you do not have access on this part of site.
+{% endblock %}

@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '-y_kjm=x6&20w1$rejr=%#lz1kpzg81@o1zw6m_cqwgc%h4baj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['bookstore.ir', '127.0.0.1']
 

@@ -1,0 +1,29 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}ERROR TITLE{% endblock %}</title>
+</head>
+<body>
+  <h1>Error
+    <span>
+      {% block error_code %}
+          ERROR CODE
+      {% endblock %}
+    </span>
+  </h1>
+  <p>
+      {% block error_context %}
+          ERROR DESCRIPTION
+      {% endblock %}
+  </p>
+  <p>
+      {% block options %}
+          <a href="{% url 'shop:home_page' %}">return to the homepage</a>.
+      {% endblock %}
+  </p>
+  <p class="output">Good luck.</p>
+</body>
+</html>
+

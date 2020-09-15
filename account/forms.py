@@ -4,7 +4,8 @@ from django import forms
 
 
 class SignupFrom(UserCreationForm):
-    email = forms.EmailField(max_length=200, help_text='Required', label='email')
+    email = forms.EmailField(max_length=200, label='Email', widget=forms.EmailInput(attrs=
+                                                                                    {'placeholder': 'required'}))
 
     class Meta:
         model = ShopUser
